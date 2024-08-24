@@ -1,4 +1,5 @@
 import pandas as pd
+import glob
 import os
 import time
 
@@ -6,68 +7,66 @@ import time
 input_folder = 'Scrapped'
 output_folder = 'Clean Data'
 
-# Create the output folder if it doesn't exist
+# Ensure the output folder exists
 os.makedirs(output_folder, exist_ok=True)
 
-# List all CSV files in the input folder
-csv_files = [f for f in os.listdir(input_folder) if f.endswith('.csv')]
+# Path to CSV files in the input folder
+path = os.path.join(input_folder, "*.csv")
 
-# Initialize an empty list to store DataFrames
-dfs = []
+# Get all CSV files in the folder
+all_files = glob.glob(path)
 
-# Track the number of files processed
-total_files = len(csv_files)
+# Create a list to hold the dataframes
+dataframes = []
 
-# Read and append each CSV file into the list
-for i, csv_file in enumerate(csv_files, start=1):
-    file_path = os.path.join(input_folder, csv_file)
-    df = pd.read_csv(file_path)
-    dfs.append(df)
-    print(f"Processed file {i} of {total_files}: {csv_file}")
+# Columns to exclude
+exclude_columns = ['Introduction', 'Store Shopping', 'In Store Pickup', 'In Store Pickup']
 
-# Concatenate all DataFrames into one
-merged_df = pd.concat(dfs, ignore_index=True)
+# Track progress
+total_files = len(all_files)
+print(f'Total files found: {total_files}')
 
-# Count the number of empty phone numbers before removing them
-empty_phone_numbers_count = merged_df['Phone Number'].isna().sum() + (merged_df['Phone Number'] == '').sum()
-print(f"Number of empty phone numbers found: {empty_phone_numbers_count}")
+# Read, process, and filter CSV files
+for i, filename in enumerate(all_files, start=1):
+    print(f'Reading file {i}/{total_files}: {filename}')
+    df = pd.read_csv(filename)
+    
+    # Drop the columns that should be excluded
+    df = df.drop(columns=[col for col in exclude_columns if col in df.columns])
+    
+    # Drop rows where 'Phone Number' is empty
+    if 'Phone Number' in df.columns:
+        df = df.dropna(subset=['Phone Number'])
+        
+        # Remove spaces from the 'Phone Number' column
+        df['Phone Number'] = df['Phone Number'].astype(str).str.replace(' ', '', regex=False)
+    
+    dataframes.append(df)
 
-# Remove rows with empty 'Phone Number'
-merged_df = merged_df[merged_df['Phone Number'].notna() & (merged_df['Phone Number'] != '')]
+# Concatenate all dataframes into a single dataframe
+merged_df = pd.concat(dataframes, ignore_index=True)
 
-# Remove spaces from 'Phone Number'
-merged_df['Phone Number'] = merged_df['Phone Number'].astype(str).str.replace(' ', '', regex=False)
+# Find and remove duplicate rows
+initial_row_count = len(merged_df)
+merged_df = merged_df.drop_duplicates()
+final_row_count = len(merged_df)
+duplicates_deleted = initial_row_count - final_row_count
 
-# Remove leading zeros from 'Phone Number'
-merged_df['Phone Number'] = merged_df['Phone Number'].str.lstrip('0')
+# Print out the number of duplicates deleted
+print(f'Total rows before removing duplicates: {initial_row_count}')
+print(f'Total rows after removing duplicates: {final_row_count}')
+print(f'Number of duplicate rows deleted: {duplicates_deleted}')
 
-# Ensure 'Phone Number' is 10 digits long
-merged_df['Phone Number'] = merged_df['Phone Number'].str.zfill(10)
+# Define the path for the output CSV file
+output_file = os.path.join(output_folder, 'merged_file.csv')
 
-# Number of rows before removing duplicates
-total_rows_before = len(merged_df)
+# Save the merged dataframe to a new CSV file
+merged_df.to_csv(output_file, index=False)
 
-# Remove duplicates based on 'Phone Number', keeping the first occurrence
-cleaned_df = merged_df.drop_duplicates(subset='Phone Number', keep='first')
+print(f'Merged file saved to {output_file}')
 
-# Number of rows after removing duplicates
-total_rows_after = len(cleaned_df)
-
-# Calculate the number of duplicates removed
-duplicates_removed = total_rows_before - total_rows_after
-
-# Define the output file path
-output_file = os.path.join(output_folder, 'cleaned_data.csv')
-
-# Save the cleaned DataFrame to a new CSV file
-cleaned_df.to_csv(output_file, index=False)
-
-print(f"Data cleaned and saved to {output_file}")
-print(f"Total files processed: {total_files}")
-print(f"Total rows before removing duplicates: {total_rows_before}")
-print(f"Total rows after removing duplicates: {total_rows_after}")
-print(f"Duplicates removed: {duplicates_removed}")
-
-# Wait for 5 seconds before exiting
-print("Exiting in 15 seconds...")
+# Timer
+print('Waiting for 15 seconds...')
 time.sleep(15)
+
+print('Done!')
