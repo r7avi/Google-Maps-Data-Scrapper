@@ -20,7 +20,7 @@ def main():
     with open(queries_file_path, 'r') as file:
         queries = [line.strip() for line in file if line.strip()]
 
-    total_listings = 20  # Default number of listings to scrape
+    total_listings = 50  # Default number of listings to scrape
 
     # Scrape for each query with error handling
     for query in queries:

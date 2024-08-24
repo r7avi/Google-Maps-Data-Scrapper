@@ -10,21 +10,18 @@ def extract_data(xpath, data_list, page):
     data_list.append(data)
 
 def scrape_google_maps(search_for, total):
-    l1=[]
-    l2=[]
-
-    names_list=[]
-    address_list=[]
-    website_list=[]
-    phones_list=[]
-    reviews_c_list=[]
-    reviews_a_list=[]
-    store_s_list=[]
-    in_store_list=[]
-    store_del_list=[]
-    place_t_list=[]
-    open_list=[]
-    intro_list=[]
+    names_list = []
+    address_list = []
+    website_list = []
+    phones_list = []
+    reviews_c_list = []
+    reviews_a_list = []
+    store_s_list = []
+    in_store_list = []
+    store_del_list = []
+    place_t_list = []
+    open_list = []
+    intro_list = []
 
     # Define the directory for saving the file
     folder = 'Scrapped'
@@ -44,28 +41,37 @@ def scrape_google_maps(search_for, total):
 
         page.hover('//a[contains(@href, "https://www.google.com/maps/place")]')
 
+        unique_urls = set()
         previously_counted = 0
+
         while True:
             page.mouse.wheel(0, 10000)
+            page.wait_for_timeout(2000)
+            page.mouse.wheel(0, 10000)
+            page.wait_for_timeout(2000)
             page.wait_for_selector('//a[contains(@href, "https://www.google.com/maps/place")]')
 
-            if (page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').count() >= total):
-                listings = page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').all()[:total]
-                listings = [listing.locator("xpath=..") for listing in listings]
-                print(f"Total Found: {len(listings)}")
+            listings = page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').all()
+            for listing in listings:
+                href = listing.get_attribute('href')
+                unique_urls.add(href)
+
+            if len(unique_urls) >= total:
+                print(f"Total Unique URLs Found: {len(unique_urls)}")
                 break
             else:
-                if (page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').count() == previously_counted):
-                    listings = page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').all()
-                    print(f"Arrived at all available\nTotal Found: {len(listings)}")
+                if len(unique_urls) == previously_counted:
+                    print(f"Arrived at all available\nTotal Unique URLs Found: {len(unique_urls)}")
                     break
                 else:
-                    previously_counted = page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').count()
-                    print(f"Currently Found: ", page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').count())
+                    previously_counted = len(unique_urls)
+                    print(f"Currently Found: {len(unique_urls)}")
 
-        # Scraping
-        for listing in listings:
-            listing.click()
+        unique_urls = list(unique_urls)[:total]
+
+        # Scraping data from each unique URL
+        for url in unique_urls:
+            page.goto(url, timeout=60000)
             page.wait_for_selector('//div[@class="TIHn2 "]//h1[@class="DUwDvf lfPIob"]')
 
             name_xpath = '//div[@class="TIHn2 "]//h1[@class="DUwDvf lfPIob"]'
@@ -167,4 +173,3 @@ def scrape_google_maps(search_for, total):
         df.to_csv(file_path, index=False)
         browser.close()
         print(df.head())
-
