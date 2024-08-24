@@ -1,4 +1,5 @@
 #Ignore
 Scrapped/
 Queries.txt
+error_log.txt
 __pycache__/
