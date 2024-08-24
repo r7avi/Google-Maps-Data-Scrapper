@@ -46,16 +46,27 @@ for i, filename in enumerate(all_files, start=1):
 # Concatenate all dataframes into a single dataframe
 merged_df = pd.concat(dataframes, ignore_index=True)
 
-# Find and remove duplicate rows
-initial_row_count = len(merged_df)
-merged_df = merged_df.drop_duplicates()
-final_row_count = len(merged_df)
-duplicates_deleted = initial_row_count - final_row_count
+# Track the original number of rows
+original_row_count = len(merged_df)
 
-# Print out the number of duplicates deleted
-print(f'Total rows before removing duplicates: {initial_row_count}')
-print(f'Total rows after removing duplicates: {final_row_count}')
-print(f'Number of duplicate rows deleted: {duplicates_deleted}')
+# Identify duplicates and drop only one instance per duplicate
+duplicates = merged_df[merged_df.duplicated(subset=['Phone Number'], keep=False)]
+duplicates_removed = 0
+
+# Iterate over duplicate phone numbers and keep only one instance
+for phone_number in duplicates['Phone Number'].unique():
+    duplicate_rows = merged_df[merged_df['Phone Number'] == phone_number]
+    if len(duplicate_rows) > 1:
+        duplicates_removed += len(duplicate_rows) - 1
+        # Keep only the first occurrence and drop the rest
+        merged_df = merged_df[~(merged_df['Phone Number'] == phone_number) | (merged_df.index == duplicate_rows.index[0])]
+
+# Get the total number of rows after deduplication
+final_row_count = len(merged_df)
+
+print(f'Total rows before deduplication: {original_row_count}')
+print(f'Total rows after deduplication: {final_row_count}')
+print(f'Duplicates removed: {duplicates_removed}')
 
 # Define the path for the output CSV file
 output_file = os.path.join(output_folder, 'merged_file.csv')
