@@ -36,7 +36,7 @@ def scrape_google_maps(search_for, total):
         page = browser.new_page()
 
         page.goto("https://www.google.com/maps/@32.9817464,70.1930781,3.67z?", timeout=60000)
-        page.wait_for_timeout(1000)
+        page.wait_for_timeout(5000)
 
         page.locator('//input[@id="searchboxinput"]').fill(search_for)
         page.keyboard.press("Enter")

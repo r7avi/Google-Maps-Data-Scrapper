@@ -4,7 +4,7 @@ from scraper import scrape_google_maps
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--search", type=str, help="Search query for Google Maps")
-    parser.add_argument("-t", "--total", type=int, default=500, help="Total number of listings to scrape (default: 500)")
+    parser.add_argument("-t", "--total", type=int, default=20, help="Total number of listings to scrape (default: 20)")
     args = parser.parse_args()
 
     if not args.search:

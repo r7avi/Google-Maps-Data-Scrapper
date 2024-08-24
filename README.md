@@ -52,4 +52,4 @@ To use this script, follow these steps:
      python main.py -s "Hospitals in Chennai" -t 20
     ```
 
-3. The script will launch a browser, perform the search, and start scraping information. It will display the progress and save the results to a CSV file called result.csv.
+3. The script will launch a browser, perform the search, and start scraping information. It will display the progress and save the results to a CSV file called searchname_results.csv.
