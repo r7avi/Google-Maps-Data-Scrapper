@@ -20,7 +20,7 @@ all_files = glob.glob(path)
 dataframes = []
 
 # Columns to exclude
-exclude_columns = ['Introduction', 'Store Shopping', 'In Store Pickup', 'In Store Pickup']
+exclude_columns = ['Introduction', 'Store Shopping', 'In Store Pickup', 'In Store Pickup' , 'Delivery', 'Opens At']
 
 # Track progress
 total_files = len(all_files)
