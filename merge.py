@@ -2,12 +2,27 @@ import pandas as pd
 import glob
 import os
 import time
+import tkinter as tk
+from tkinter import filedialog, simpledialog
 
-# Define the paths
-input_folder = 'Scrapped'
-output_folder = 'Clean Data'
+# Function to ask for folder and file name
+def get_user_input():
+    root = tk.Tk()
+    root.withdraw()  # Hide the root window
+
+    # Ask for the input folder
+    input_folder = filedialog.askdirectory(title="Select Input Folder")
+
+    # Ask for the output file name
+    output_file_name = simpledialog.askstring("Input", "Enter the name for the merged file (without extension):")
+
+    return input_folder, output_file_name
+
+# Get user inputs
+input_folder, output_file_name = get_user_input()
 
 # Ensure the output folder exists
+output_folder = 'Merged'
 os.makedirs(output_folder, exist_ok=True)
 
 # Path to CSV files in the input folder
@@ -20,7 +35,7 @@ all_files = glob.glob(path)
 dataframes = []
 
 # Columns to exclude
-exclude_columns = ['Introduction', 'Store Shopping', 'In Store Pickup', 'In Store Pickup' , 'Delivery', 'Opens At']
+exclude_columns = ['Introduction', 'Store Shopping', 'In Store Pickup', 'In Store Pickup', 'Delivery', 'Opens At']
 
 # Track progress
 total_files = len(all_files)
@@ -30,17 +45,17 @@ print(f'Total files found: {total_files}')
 for i, filename in enumerate(all_files, start=1):
     print(f'Reading file {i}/{total_files}: {filename}')
     df = pd.read_csv(filename)
-    
+
     # Drop the columns that should be excluded
     df = df.drop(columns=[col for col in exclude_columns if col in df.columns])
-    
+
     # Drop rows where 'Phone Number' is empty
     if 'Phone Number' in df.columns:
         df = df.dropna(subset=['Phone Number'])
-        
+
         # Remove spaces from the 'Phone Number' column
         df['Phone Number'] = df['Phone Number'].astype(str).str.replace(' ', '', regex=False)
-    
+
     dataframes.append(df)
 
 # Concatenate all dataframes into a single dataframe
@@ -69,7 +84,7 @@ print(f'Total rows after deduplication: {final_row_count}')
 print(f'Duplicates removed: {duplicates_removed}')
 
 # Define the path for the output CSV file
-output_file = os.path.join(output_folder, 'merged_file.csv')
+output_file = os.path.join(output_folder, f'{output_file_name}.csv')
 
 # Save the merged dataframe to a new CSV file
 merged_df.to_csv(output_file, index=False)
