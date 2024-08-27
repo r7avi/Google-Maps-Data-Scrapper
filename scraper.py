@@ -12,6 +12,7 @@ def extract_data(xpath, data_list, page):
 def scrape_google_maps(search_for, total):
     names_list = []
     address_list = []
+    plus_code_list = []  # New list for Plus Code
     website_list = []
     phones_list = []
     reviews_c_list = []
@@ -76,6 +77,7 @@ def scrape_google_maps(search_for, total):
 
             name_xpath = '//div[@class="TIHn2 "]//h1[@class="DUwDvf lfPIob"]'
             address_xpath = '//button[@data-item-id="address"]//div[contains(@class, "fontBodyMedium")]'
+            plus_code_xpath = '//div[@class="rogA2c "]//div[contains(@class, "Io6YTe") and contains(text(), "+")]' 
             website_xpath = '//a[@data-item-id="authority"]//div[contains(@class, "fontBodyMedium")]'
             phone_number_xpath = '//button[contains(@data-item-id, "phone:tel:")]//div[contains(@class, "fontBodyMedium")]'
             reviews_count_xpath = '//div[@class="TIHn2 "]//div[@class="fontBodyMedium dmRWX"]//div//span//span//span[@aria-label]'
@@ -160,6 +162,7 @@ def scrape_google_maps(search_for, total):
 
             extract_data(name_xpath, names_list, page)
             extract_data(address_xpath, address_list, page)
+            extract_data(plus_code_xpath, plus_code_list, page)  # Extracting Plus Code
             extract_data(website_xpath, website_list, page)
             extract_data(phone_number_xpath, phones_list, page)
             extract_data(place_type_xpath, place_t_list, page)
