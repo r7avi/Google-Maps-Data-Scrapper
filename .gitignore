@@ -5,6 +5,5 @@ Data/
 Clean Data/
 docker/upload
 
-Queries.txt
 error_log.txt
 upload.py

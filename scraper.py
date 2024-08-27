@@ -167,8 +167,8 @@ def scrape_google_maps(search_for, total):
             extract_data(phone_number_xpath, phones_list, page)
             extract_data(place_type_xpath, place_t_list, page)
 
-        df = pd.DataFrame(list(zip(names_list, website_list, intro_list, phones_list, address_list, reviews_c_list, reviews_a_list, store_s_list, in_store_list, store_del_list, place_t_list, open_list)),
-                          columns=['Names','Website','Introduction','Phone Number','Address','Plus Code','Review Count','Average Review Count','Store Shopping','In Store Pickup','Delivery','Type','Opens At'])
+      df = pd.DataFrame(list(zip(names_list, website_list, intro_list, phones_list, address_list, plus_code_list, reviews_c_list, reviews_a_list, store_s_list, in_store_list, store_del_list, place_t_list, open_list)),
+                          columns=['Names','Website','Introduction','Phone Number','Address', 'Plus Code','Review Count','Average Review Count','Store Shopping','In Store Pickup','Delivery','Type','Opens At'])
         
         # Save file in the 'Scrapped' folder with the search term as the filename
         search_term = search_for.replace(' ', '_')
