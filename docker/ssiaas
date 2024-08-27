@@ -1,0 +1,10 @@
+        # Save file in the 'Scrapped' folder with the search term as the filename
+        search_term = search_for.replace(' ', '_')
+        file_path = os.path.join(folder, f'{search_term}_results.csv')
+        df.to_csv(file_path, index=False)
+        browser.close()
+        print(df.head())
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(executable_path='C:\Program Files\Google\Chrome\Application\chrome.exe', headless=False)
+        page = browser.new_page()
