@@ -3,7 +3,7 @@ Scrapped/
 __pycache__/
 Data/
 Clean Data/
-docker/
+docker/upload
 
 Queries.txt
 error_log.txt

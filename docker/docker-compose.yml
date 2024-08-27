@@ -1,0 +1,7 @@
+version: '3'
+services:
+  scraper:
+    build: .
+    volumes:
+      - ./app:/app
+    command: ["python", "run.py"]
