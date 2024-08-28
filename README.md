@@ -9,7 +9,7 @@ This Python script utilizes the Playwright library to perform web scraping and d
 
 ## Prerequisite
 - This code requires a python version below 3.10
-- Any version of python beyond 3.9 may cause issues and may not work properly
+- Any version of python beyond 3.10 may cause issues and may not work properly
 
 ## Key Features
 - Data Scraping: The script scrapes data from Google Maps listings, extracting valuable information about businesses, such as their name, address,address short code, website, and contact details.
