@@ -178,3 +178,4 @@ def scrape_google_maps(search_for, total):
         df.to_csv(file_path, index=False)
         browser.close()
         print(df.head())
+ 

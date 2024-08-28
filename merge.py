@@ -76,7 +76,7 @@ for phone_number in duplicates['Phone Number'].unique():
         # Keep only the first occurrence and drop the rest
         merged_df = merged_df[~(merged_df['Phone Number'] == phone_number) | (merged_df.index == duplicate_rows.index[0])]
 
-# Get the total number of rows after deduplication
+# Get the total number of rows after deduplication 
 final_row_count = len(merged_df)
 
 print(f'Total rows before deduplication: {original_row_count}')
