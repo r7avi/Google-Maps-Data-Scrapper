@@ -35,9 +35,16 @@ This Python script utilizes the Playwright library to perform web scraping and d
 2. Navigate to the project directory:
    ```bash
    cd google-maps-scraping
+3. Update PIP:
+    ```bash
+     python -m pip install --upgrade pip
+
 3. Install the required Python packages:
     ```bash
     pip install -r requirements.txt
+
+   
+
 
 ## How to Use:
 
