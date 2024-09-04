@@ -63,10 +63,11 @@ To use this script, follow these steps:
 
 ## Docker :
 
-If you want to run in Docker ,In Docker/app : update Query.txt and Modify Server details in Scrapper.py and add your Linux SSH Details so Scrapped data can be stored in your Linux server.
+1. If you want to run in Docker ,In Docker/app : update Query.txt and Modify Server details in Scrapper.py and add your Linux SSH Details so Scrapped data can be stored in your Linux server.
+    
     Execute below command in Docker folder . [Note You Must Have Docker Installed in your Win/Linux]
    ```bash
      docker-compose up --build
     ```
-   
-Other Helpful Docker Commands : [https://github.com/r7avi/Google-Maps-Scrapper/blob/main/docker/Docker-Commands.txt](https://github.com/r7avi/Google-Maps-Scrapper/blob/main/docker/Docker-Commands.txt)
+
+## Other Helpful Docker Commands : [https://github.com/r7avi/Google-Maps-Scrapper/blob/main/docker/Docker-Commands.txt](https://github.com/r7avi/Google-Maps-Scrapper/blob/main/docker/Docker-Commands.txt)
