@@ -54,9 +54,19 @@ To use this script, follow these steps:
     ```bash
      python main.py -s "search term" -t total
     ```
-    Write the name of the place/business in "search term" and a number in place of "total" to get the number of listings. If listings are less than the number provided it is because there are fewer listings than the number provided such as
+    Load all your Quries in Query.txt, 
    ```bash
-     python main.py -s "Hospitals in Chennai" -t 20
+     python run.py
     ```
 
 3. The script will launch a browser, perform the search, and start scraping information. It will display the progress and save the results to a CSV file called searchname_results.csv.
+
+## Docker :
+
+If you want to run in Docker ,In Docker/app : update Query.txt and Modify Server details in Scrapper.py and add your Linux SSH Details so Scrapped data can be stored in your Linux server.
+    Execute below command in Docker folder . [Note You Must Have Docker Installed in your Win/Linux]
+   ```bash
+     docker-compose up --build
+    ```
+   
+Other Helpful Docker Commands : [https://github.com/r7avi/Google-Maps-Scrapper/blob/main/docker/Docker-Commands.txt](https://github.com/r7avi/Google-Maps-Scrapper/blob/main/docker/Docker-Commands.txt)
