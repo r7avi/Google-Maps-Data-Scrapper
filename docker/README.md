@@ -11,10 +11,7 @@
      sudo chmod +x /usr/local/bin/docker-compose
     ```
 
-
-
-
-
+## Manual Installation Commands
 
 1. Uninstall Old Versions (If you have any old versions of Docker installed, remove them first) :
 sudo apt-get remove docker docker-engine docker.io containerd runc
