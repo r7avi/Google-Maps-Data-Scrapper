@@ -1,4 +1,0 @@
-If Scrapped data from Google have websites, then this script will visit all websites and scrape emails.
-if will scrape emails from main page and contact page (it will automatically serach for contact page and opens it and scrape data and save it in new tab of source file)
-
-Also will add support to scrape social media links.
