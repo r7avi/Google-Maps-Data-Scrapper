@@ -1,3 +1,5 @@
+## change run.py and main.py accorodingly to use scrapper-minimal-data.py
+
 from playwright.sync_api import sync_playwright
 import pandas as pd
 import os
