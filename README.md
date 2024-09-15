@@ -51,11 +51,12 @@ To use this script, follow these steps:
 
 1. Run the script with Python:
     ```bash
-     python main.py -s "search term" -t total
+     python main.py
     ```
-    Load all your Quries in Query.txt, 
+    Load all your Quries in Query.txt, each line treated as 1 query
    ```bash
-     python run.py
+     doctors in new york
+     dentist in new yersy
     ```
 
 2. Change total_listings in run.py . Min : 20 and Max : 150
