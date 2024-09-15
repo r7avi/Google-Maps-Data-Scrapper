@@ -2,6 +2,7 @@ import os
 import sys
 import pandas as pd
 import data
+from openpyxl import load_workbook
 
 async def get_search_list():
     try:
@@ -34,10 +35,10 @@ def save_data(search_for):
                 data.data[key] = data.data[key][:min_length]
 
         map_data = {
-            'Name': data.data['names'], 'Address': data.data['addresses'], 'Phone': data.data['phones'],
+            'Names': data.data['names'], 'Address': data.data['addresses'],'Plus Code': data.data['plus_code'], 'Phone Number': data.data['phones'],
             'Website': data.data['websites'], 'Google Link': data.data['links'],
             'Latitude': data.data['latitudes'], 'Longitude': data.data['longitudes'],
-            'Reviews_Count': data.data['reviews_count'], 'Average Rates': data.data['rates']
+            'Reviews_Count': data.data['reviews_count'], 'Average Rates': data.data['rates'], 'Type': data.data['type']
         }
         df = pd.DataFrame(map_data)
         print(df)
@@ -56,10 +57,44 @@ def merge_excel_files():
         all_files = [os.path.join(output_folder, f) for f in os.listdir(output_folder) if f.endswith('.xlsx')]
         combined_df = pd.concat([pd.read_excel(f) for f in all_files])
         combined_df.drop_duplicates(subset=['Google Link'], inplace=True)
-        combined_df.to_excel(os.path.join(output_folder, 'merged_output.xlsx'), index=False)
+        
+        output_file = os.path.join(output_folder, 'merged_output.xlsx')
+        combined_df.to_excel(output_file, index=False)
         print("Merged file saved as 'merged_output.xlsx'.")
+        
+        # Adjust column widths
+        adjust_column_width(output_file)
+        
     except Exception as e:
         print(f"An error occurred while merging Excel files: {e}")
+
+def adjust_column_width(file_path):
+    try:
+        # Load the workbook and the sheet
+        workbook = load_workbook(file_path)
+        worksheet = workbook.active
+        
+        # Iterate over all columns and set the column width based on the maximum length of content
+        for col in worksheet.columns:
+            max_length = 0
+            col_letter = col[0].column_letter  # Get the column letter (A, B, C, etc.)
+            
+            for cell in col:
+                try:
+                    if cell.value:
+                        max_length = max(max_length, len(str(cell.value)))
+                except:
+                    pass
+            
+            adjusted_width = max_length + 2  # Add some padding
+            worksheet.column_dimensions[col_letter].width = adjusted_width
+        
+        # Save the workbook after adjusting column widths
+        workbook.save(file_path)
+        print("Column widths adjusted for better viewing.")
+        
+    except Exception as e:
+        print(f"An error occurred while adjusting column widths: {e}")
 
 def parse_coordinates():
     try:

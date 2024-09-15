@@ -49,6 +49,8 @@ async def extract_listing_elements():
                 await page.wait_for_timeout(5000)
                 data.data['links'].append(page.url)
                 data.data['names'].append(await get_element_text(page, '//div[@style="padding-bottom: 4px;"]//h1'))
+                data.data['type'].append(await get_element_text(page, '//div[@class="LBgpqf"]//button[@class="DkEaL "]'))
+                data.data['plus_code'].append(await get_element_text(page, '//div[@class="rogA2c "]//div[contains(@class, "Io6YTe") and contains(text(), "+")]'))
                 data.data['rates'].append(await get_element_text(page, '//div[@style="padding-bottom: 4px;"]//div[contains(@jslog,"mutable:true;")]/span[1]/span[1]'))
                 data.data['addresses'].append(await get_element_text(page, '//button[@data-item-id="address"]//div[contains(@class, "fontBodyMedium")]'))
                 data.data['websites'].append(await get_element_attribute(page, '//a[@data-value="Open website"]', 'href'))
