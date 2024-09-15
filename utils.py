@@ -6,12 +6,12 @@ from openpyxl import load_workbook
 
 async def get_search_list():
     try:
-        choice = input("Would you like to input search term manually (1) or use input.txt (2)? ")
+        choice = input("Would you like to input search term manually (1) or use Query.txt (2)? ")
         if choice == '1':
             search_for = input("Please enter your search term: ")
             return [search_for.strip()]
         elif choice == '2':
-            input_file_name = 'input.txt'
+            input_file_name = 'Query.txt'
             input_file_path = os.path.join(os.getcwd(), input_file_name)
             if os.path.exists(input_file_path):
                 with open(input_file_path, 'r') as file:
