@@ -12,7 +12,7 @@ This Python script utilizes the Playwright library to perform web scraping and d
 - Any version of python beyond 3.10 may cause issues and may not work properly
 
 ## Key Features
-- Data Scraping: The script scrapes data from Google Maps listings, extracting valuable information about businesses, such as their name, address,address short code, website, and contact details.
+- Data Scraping: The script scrapes data from Google Maps listings, extracting valuable information about businesses, such as their name, address, phone number, reviews, type, website, plus code, latitude and longitude.
 
 - Review Analysis: It extracts review counts and average ratings, providing insights into businesses' online reputation.
 
@@ -66,7 +66,7 @@ To use this script, follow these steps:
 
 ## Docker :
 
-1. If you want to run in Docker ,In Docker/app : update Query.txt and Modify Server details in Scrapper.py and add your Linux SSH Details so Scrapped data can be stored in your Linux server.
+1. If you want to run in Docker ,In Docker/app : update Query.txt and Modify Server details in Scrapper.py and add your Linux SSH Details so Scrapped data can be stored in your Linux server else It will be stored Locally in app/output.
     
     Execute below command in Docker folder . [Note You Must Have Docker Installed in your Win/Linux]
    ```bash
