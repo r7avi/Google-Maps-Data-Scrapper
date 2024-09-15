@@ -4,6 +4,7 @@ __pycache__/
 Data/
 Clean Data/
 docker/upload
+output/
 
 error_log.txt
 upload.py
