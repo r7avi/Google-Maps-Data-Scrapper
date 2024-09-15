@@ -1,0 +1,4 @@
+pandas==2.1.2
+playwright==1.37.0
+lxml==4.9.3
+tk==0.1.0
