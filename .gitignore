@@ -7,4 +7,5 @@ docker/upload
 output/
 
 error_log.txt
+error_log.log
 upload.py
