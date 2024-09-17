@@ -70,7 +70,7 @@ To use this script, follow these steps:
 3. Enter the total number of results you want to scrape.
 
    ```bash
-   20 to Max : 150
+   Min : 20 (Default) & Max : 150
     ```
 4. The script will navigate to Google Maps, perform searches, scrape data, and save it into Excel files in the `output` directory.
 
