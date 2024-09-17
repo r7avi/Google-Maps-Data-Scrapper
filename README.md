@@ -1,5 +1,6 @@
 # Google-Maps-Scrapper
-This Python script utilizes the Playwright library to perform web scraping and data extraction from Google Maps. It is particularly designed for obtaining information about businesses, including their name, address, website, phone number, reviews, and more.
+This project provides a set of Python scripts to scrape data from Google Maps using the Playwright library for automated web browsing. The data scraped includes names, addresses, phone numbers, websites, pluscode, longitude / latitude, ratings and other relevant details of listings found on Google Maps.
+
 ## Table of Contents
 
 - [Prerequisite](#prerequisite)
@@ -8,23 +9,26 @@ This Python script utilizes the Playwright library to perform web scraping and d
 - [How to Use](#how-to-use)
 
 ## Prerequisite
+
 - This code requires a python version below 3.10
 - Any version of python beyond 3.10 may cause issues and may not work properly
 
+## Modules
+
+- `scraper.py`: Contains functions to interact with Google Maps through a browser session, scroll through listings, and extract listing details.
+- `utils.py`: Includes utility functions for reading search terms, saving data to Excel, merging Excel files, adjusting column widths in Excel, and parsing coordinates from URLs.
+- `run.py`: Orchestrates the scraping process using functions from other modules, handles user inputs, and manages the overall flow of the application.
+
 ## Key Features
-- Data Scraping: The script scrapes data from Google Maps listings, extracting valuable information about businesses, such as their name, address, phone number, reviews, type, website, plus code, latitude and longitude.
 
-- Review Analysis: It extracts review counts and average ratings, providing insights into businesses' online reputation.
+- **Interactive Search**: Users can choose to input search terms manually or use predefined terms from a `Query.txt` file.
+- **Data Extraction**: Extracts detailed information about each listing, including links, names, types, plus codes, ratings, addresses, websites, phone numbers, and review counts.
+- **Data Normalization & Cleansing**: Ensures all data lists are of the same length before saving & It cleanses and organizes the scraped data, removing redundant or unnecessary columns.
+- **Coordinate Parsing**: Extracts latitude and longitude from Google Maps links.
+- **Review Analysis**: It extracts review counts and average ratings, providing insights into businesses' online reputation.
+- **Business Type Detection**: The script identifies whether a business offers in-store shopping, in-store pickup, or delivery services.
+- **Excel Integration**: Saves individual search results into Excel files and can merge multiple results into a single file with adjusted column widths for better readability.
 
-- Business Type Detection: The script identifies whether a business offers in-store shopping, in-store pickup, or delivery services.
-
-- Operating Hours: It extracts information about the business's operating hours.
-
-- Introduction Extraction: The script also scrapes introductory information about the businesses when available.
-
-- Data Cleansing: It cleanses and organizes the scraped data, removing redundant or unnecessary columns.
-
-- CSV Export: The cleaned data is exported to a CSV file for further analysis or integration with other tools.
 
 ## Installation
 
@@ -42,26 +46,33 @@ This Python script utilizes the Playwright library to perform web scraping and d
 3. Install the required Python packages:
     ```bash
     pip install -r requirements.txt
-
-   
+    ```
+    or
+    ```bash
+    pip install playwright pandas openpyxl tqdm playwright install
+    ```
 
 ## How to Use:
 
 To use this script, follow these steps:
 
-1. Run the script with Python:
+1. Start the script `run.py`.
+
     ```bash
-     python main.py
+    python main.py
     ```
-    Load all your Quries in Query.txt, each line treated as 1 query
+2. Choose to input a search term manually or use `Query.txt`.
+
    ```bash
-     doctors in new york
-     dentist in new yersy
+   doctors in new york
+   dentist in new yersy
     ```
+3. Enter the total number of results you want to scrape.
 
-2. Change total_listings in run.py . Min : 20 and Max : 150
-
-3. The script will launch a browser, perform the search, and start scraping information. It will display the progress and save the results to a CSV file called searchname_results.csv.
+   ```bash
+   20 to Max : 150
+    ```
+4. The script will navigate to Google Maps, perform searches, scrape data, and save it into Excel files in the `output` directory.
 
 
 ## Docker :
