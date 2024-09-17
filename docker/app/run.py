@@ -20,18 +20,17 @@ async def main():
             browser = await p.chromium.launch(headless=True, args=['--lang=en-US'])
             page = await browser.new_page()
             await page.goto("https://www.google.com/maps?hl=en", timeout=60000)
-            await page.wait_for_timeout(5000)
+            await page.wait_for_selector('//input[@id="searchboxinput"]', timeout=5000)  # Wait for the search box to be available
 
             for search_for in search_list:
                 try:
                     print(f"------ {search_for} ------")
                     await page.locator('//input[@id="searchboxinput"]').fill(search_for)
-                    await page.wait_for_timeout(3000)
                     await page.keyboard.press("Enter")
-                    await page.wait_for_timeout(6000)                    
-                 ## await page.hover('//a[contains(@href, "https://www.google.com/maps/place")]') - removed as it was causing issues
-                    await page.wait_for_selector('//a[contains(@href, "https://www.google.com/maps/place")]') # Added to wait for the element to appear
-
+                    await page.wait_for_timeout(3000)
+                    
+                    # Wait for listings to be available after the search
+                    await page.wait_for_selector('//a[contains(@href, "https://www.google.com/maps/place")]', timeout=10000)  # Adjust timeout as needed
 
                     listings = await scrape_data(page, total)
                     print(f'Processing on: {listings}')
