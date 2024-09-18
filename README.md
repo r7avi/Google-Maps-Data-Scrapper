@@ -82,6 +82,11 @@ scraper.py - Line 45 & run.py - Line 15 # Change the path of chrome.exe as Requi
   ```bash
    executable_path='C:\Program Files\Google\Chrome\Application\chrome.exe' : Make sure you have chrome installed in your system and the path is correct
   ```
+Headless Browser Mode
+
+  ```bash
+   headless=False : Set to True if you don't want to see the browser window
+  ```
 
 
 ## Docker :
