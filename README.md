@@ -59,7 +59,7 @@ To use this script, follow these steps:
 1. Start the script `run.py`.
 
     ```bash
-    python main.py
+    python run.py
     ```
 2. Choose to input a search term manually or use `Query.txt`.
 
@@ -67,10 +67,10 @@ To use this script, follow these steps:
    doctors in new york
    dentist in new yersy
     ```
-3. Enter the total number of results you want to scrape.
+3. Enter the total number of results you want to scrape in run.py Line : 16
 
    ```bash
-   Min : 20 (Default) & Max : 150
+   Min: 20 (Default) & Max: 150  ## Recommended 120
     ```
 4. The script will navigate to Google Maps, perform searches, scrape data, and save it into Excel files in the `output` directory.
 
