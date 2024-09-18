@@ -41,7 +41,7 @@ def save_data(search_for):
             'Reviews_Count': data.data['reviews_count'], 'Average Rates': data.data['rates'], 'Type': data.data['type']
         }
         df = pd.DataFrame(map_data)
-        print(df)
+        # print(df)
         output_folder = 'output'
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
