@@ -10,7 +10,7 @@ This project provides a set of Python scripts to scrape data from Google Maps us
 
 ## Prerequisite
 
-- This code requires a python version below 3.10
+- This code requires a python version below 3.10 
 - Any version of python beyond 3.10 may cause issues and may not work properly
 
 ## Modules
@@ -73,6 +73,15 @@ To use this script, follow these steps:
    Min: 20 (Default) & Max: 150  ## Recommended 120
     ```
 4. The script will navigate to Google Maps, perform searches, scrape data, and save it into Excel files in the `output` directory.
+
+
+## Debugging
+
+scraper.py - Line 45 & run.py - Line 15 # Change the path of chrome.exe as Required
+
+  ```bash
+   executable_path='C:\Program Files\Google\Chrome\Application\chrome.exe' : Make sure you have chrome installed in your system and the path is correct
+  ```
 
 
 ## Docker :
