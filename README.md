@@ -10,7 +10,7 @@ This project provides a set of Python scripts to scrape data from Google Maps us
 
 ## Prerequisite
 
-- This code requires a python version below 3.10 
+- This code requires a python version below 3.10 : [https://www.python.org/downloads/release/python-3100/](https://www.python.org/downloads/release/python-3100/)
 - Any version of python beyond 3.10 may cause issues and may not work properly
 
 ## Modules
