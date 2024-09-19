@@ -77,7 +77,7 @@ To use this script, follow these steps:
 
 ## Debugging
 
-scraper.py - Line 45 & run.py - Line 15 # Change the path of chrome.exe as Required
+Line 45 in scraper.py & Line 15 in run.py #Change the path of chrome.exe as Required
 
   ```bash
    executable_path='C:\Program Files\Google\Chrome\Application\chrome.exe' : Make sure you have chrome installed in your system and the path is correct
