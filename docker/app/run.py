@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from scraper import scrape_data, extract_listing, extract_listing_elements
-from utils import get_search_list, save_data, merge_excel_files, parse_coordinates
+from utils import get_search_list, save_data, update_query_file, merge_excel_files, parse_coordinates
 from playwright.async_api import async_playwright
 import time
 import data

@@ -41,18 +41,41 @@ def save_data(search_for):
             'Reviews_Count': data.data['reviews_count'], 'Average Rates': data.data['rates'], 'Type': data.data['type']
         }
         df = pd.DataFrame(map_data)
-        # print(df)
         output_folder = 'output'
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
         filename = search_for.replace(' ', '_').lower()
         file_path = os.path.join(output_folder, f'{filename}.xlsx')
         df.to_excel(file_path, index=False)
-        
+
         # Upload the file to the cloud
         upload_to_cloud(file_path)
+
+        # Remove the processed line from Query.txt
+        update_query_file(search_for)
+
     except Exception as e:
         print(f"An error occurred while saving data: {e}")
+
+def update_query_file(search_for):
+    try:
+        input_file_name = 'Query.txt'
+        input_file_path = os.path.join(os.getcwd(), input_file_name)
+        if os.path.exists(input_file_path):
+            with open(input_file_path, 'r') as file:
+                lines = file.readlines()
+            # Remove the processed search term
+            lines = [line for line in lines if line.strip() != search_for]
+            with open(input_file_path, 'w') as file:
+                file.writelines(lines)
+
+            # Upload the updated Query.txt to the cloud
+            upload_to_cloud(input_file_path)
+
+        else:
+            print(f'Error: {input_file_name} not found.')
+    except Exception as e:
+        print(f"An error occurred while updating the query file: {e}")
 
 def merge_excel_files():
     try:
