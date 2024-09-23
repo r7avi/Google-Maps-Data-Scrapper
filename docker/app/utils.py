@@ -41,13 +41,14 @@ def save_data(search_for):
             'Reviews_Count': data.data['reviews_count'], 'Average Rates': data.data['rates'], 'Type': data.data['type']
         }
         df = pd.DataFrame(map_data)
+        ##print(df)
         output_folder = 'output'
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
         filename = search_for.replace(' ', '_').lower()
         file_path = os.path.join(output_folder, f'{filename}.xlsx')
         df.to_excel(file_path, index=False)
-
+        
         # Upload the file to the cloud
         upload_to_cloud(file_path)
 
@@ -76,6 +77,7 @@ def update_query_file(search_for):
             print(f'Error: {input_file_name} not found.')
     except Exception as e:
         print(f"An error occurred while updating the query file: {e}")
+
 
 def merge_excel_files():
     try:
@@ -152,7 +154,7 @@ def upload_to_cloud(local_file_path):
         sftp = ssh_client.open_sftp()
 
         # Define the remote path where the file will be uploaded
-        remote_file_path = f'/home/data/v2/{os.path.basename(local_file_path)}'
+        remote_file_path = f'/home/YOUR_FOLDER_NAME/{os.path.basename(local_file_path)}'
         remote_dir = os.path.dirname(remote_file_path)
 
         # Ensure the remote directory exists
