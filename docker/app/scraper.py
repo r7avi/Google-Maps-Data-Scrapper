@@ -11,7 +11,7 @@ async def scrape_data(page, total):
         previous_listings = listings
         while listings < total:
             await page.mouse.wheel(0, 10000)
-            await page.wait_for_timeout(2000)
+            await page.wait_for_timeout(500)
             listings = await page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').count()
             print(f'Scrolled to: {listings}')
             if listings == previous_listings:
@@ -24,7 +24,7 @@ async def scrape_data(page, total):
                         click_index = max(0, listings - 3)
                         await inside_listings[click_index].click()
                         print(f'Clicked on: {click_index}')
-                        await page.wait_for_timeout(2000)
+                        await page.wait_for_timeout(500)
             previous_listings = listings
         return min(listings, total)
     except Exception as e:

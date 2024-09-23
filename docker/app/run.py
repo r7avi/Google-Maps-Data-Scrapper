@@ -34,7 +34,7 @@ async def main():
                     print(f"------ {search_for} ------")
                     await page.locator('//input[@id="searchboxinput"]').fill(search_for)
                     await page.keyboard.press("Enter")
-                    await page.wait_for_timeout(3000)
+                    await page.wait_for_timeout(500)
                     
                     await page.wait_for_selector('//a[contains(@href, "https://www.google.com/maps/place")]', timeout=10000)
 
