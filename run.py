@@ -13,7 +13,7 @@ logging.basicConfig(filename='error_log.log', level=logging.ERROR,
 async def main():
     try:
         search_list = await get_search_list()
-        total = 1  # Can set up to 150, Max 120 Recommended
+        total = 25  # Can set up to 150, Max 120 Recommended
 
         async with async_playwright() as p:
             start_time = time.time()
