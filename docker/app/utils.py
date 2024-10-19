@@ -12,6 +12,10 @@ ssh_port = 22
 ssh_user = 'USERNAME' # Please use root
 ssh_password = 'YOUR_SSH_PASSWORD'
 
+# Configure logging if it hasn't been configured elsewhere
+if not logging.getLogger().handlers:
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 async def get_search_list():
     try:
         # Directly use Query.txt without asking for user input
