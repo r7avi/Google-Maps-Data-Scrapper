@@ -4,6 +4,7 @@ import pandas as pd
 import data
 from openpyxl import load_workbook
 import paramiko
+import logging
 
 # SSH and SFTP credentials
 ssh_host = 'YOUR_SERVER_SSH_IP'
@@ -65,19 +66,23 @@ def update_query_file(search_for):
         if os.path.exists(input_file_path):
             with open(input_file_path, 'r') as file:
                 lines = file.readlines()
+            
             # Remove the processed search term
-            lines = [line for line in lines if line.strip() != search_for]
-            with open(input_file_path, 'w') as file:
-                file.writelines(lines)
+            updated_lines = [line for line in lines if line.strip() != search_for]
+            
+            if len(updated_lines) < len(lines):
+                with open(input_file_path, 'w') as file:
+                    file.writelines(updated_lines)
+                logging.info(f"Removed '{search_for}' from Query.txt")
+            else:
+                logging.warning(f"'{search_for}' not found in Query.txt")
 
             # Upload the updated Query.txt to the cloud
             upload_to_cloud(input_file_path)
-
         else:
-            print(f'Error: {input_file_name} not found.')
+            logging.error(f'Error: {input_file_name} not found.')
     except Exception as e:
-        print(f"An error occurred while updating the query file: {e}")
-
+        logging.error(f"An error occurred while updating the query file: {e}")
 
 def merge_excel_files():
     try:
@@ -169,4 +174,3 @@ def upload_to_cloud(local_file_path):
         ssh_client.close()
     except Exception as e:
         print(f"An error occurred while uploading the file to the cloud: {e}")
-
