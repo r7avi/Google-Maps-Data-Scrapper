@@ -13,7 +13,7 @@ logging.basicConfig(filename='error_log.log', level=logging.ERROR,
 async def main():
     try:
         search_list = await get_search_list()
-        total = 25  # Can set up to 150, 120 Recommended
+        total = 20  # Can set up to 150, 20-25 Recommended
 
         async with async_playwright() as p:
             start_time = time.time()
@@ -24,7 +24,7 @@ async def main():
             await page.set_viewport_size({"width": 1280, "height": 800})
 
             # Disable image loading and other unnecessary resources
-            await page.route("**/*", lambda route: route.continue_() if not route.request.resource_type in ["image", "media", "font"] else route.abort())
+            await page.route("**/*", lambda route: route.continue_() if route.request.resource_type not in ["image", "media", "font"] else route.abort())
 
             await page.goto("https://www.google.com/maps?hl=en", timeout=60000)
             await page.wait_for_selector('//input[@id="searchboxinput"]', timeout=5000)
@@ -51,7 +51,8 @@ async def main():
 
                 except Exception as e:
                     logging.error(f"Error processing search '{search_for}': {e}")
-                    continue  # Skip to the next task
+                    logging.error(f"Skipping and removing '{search_for}'")
+                    update_query_file(search_for)  # Remove the problematic line
 
             end_time = time.time()
             print(f"Scraping took {(end_time - start_time) / 60:.2f} minutes.")
