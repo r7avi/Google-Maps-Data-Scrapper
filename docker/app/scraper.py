@@ -4,19 +4,27 @@ from playwright_helpers import get_element_text, get_element_attribute
 import data
 import random
 
-async def scrape_data(page, total):
+async def scrape_data(page, total): 
     try:
         listings = await page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').count()
         print(f'Found: {listings}')
         previous_listings = listings
-        while listings < total:
+        scroll_attempts = 0
+        max_scroll_attempts = 10  # Maximum number of scroll attempts before giving up
+
+        while listings < total and scroll_attempts < max_scroll_attempts:
             await page.mouse.wheel(0, 10000)
             await page.wait_for_timeout(500)
             listings = await page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').count()
             print(f'Scrolled to: {listings}')
+            
             if listings == previous_listings:
+                scroll_attempts += 1
                 if await page.locator('//p[@class="fontBodyMedium "]//span[text()="You\'ve reached the end of the list."]').count() > 0:
                     print("You've reached the end of the search query.")
+                    break
+                elif scroll_attempts >= max_scroll_attempts:
+                    print(f"No new listings found after {max_scroll_attempts} attempts. Moving to the next search query.")
                     break
                 else:
                     inside_listings = await page.locator('//a[contains(@href, "https://www.google.com/maps/place")]').all()
@@ -25,14 +33,18 @@ async def scrape_data(page, total):
                         await inside_listings[click_index].click()
                         print(f'Clicked on: {click_index}')
                         await page.wait_for_timeout(500)
+            else:
+                scroll_attempts = 0  # Reset scroll attempts if new listings are found
+            
             previous_listings = listings
+
         return min(listings, total)
     except Exception as e:
         print(f"An error occurred during scraping: {e}")
         return 0
 
 
-async def navigate_with_retry(page, url, retries=3):
+async def navigate_with_retry(page, url, retries=1):  # Change retries to 1
     for attempt in range(retries):
         try:
             await page.goto(url, timeout=120000)
@@ -42,6 +54,7 @@ async def navigate_with_retry(page, url, retries=3):
             print(f"Attempt {attempt + 1} failed for {url}: {e}")
             if attempt == retries - 1:
                 return False  # Failed after retries
+
 
 
 async def extract_listing(page, listings):
